@@ -1,3 +1,4 @@
+import React from 'react'
 import { createContext, useContext, useState } from "react";
 
 
@@ -5,7 +6,6 @@ import { createContext, useContext, useState } from "react";
 const AppContext = createContext()
 
 
-import React from 'react'
 
 function GlobarContext({children}) {
     const [showSidebar,setShowSidebar] = useState(false)

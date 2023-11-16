@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { data } from '../../../data';
 const ReducerBasics = () => {
   const [people, setPeople] = React.useState(data);
@@ -7,6 +7,10 @@ const ReducerBasics = () => {
     let newPeople = people.filter((person) => person.id !== id);
     setPeople(newPeople);
   };
+
+  const peopleRef = useRef(people)
+
+  console.log(peopleRef.current)
   return (
     <div>
       {people.map((person) => {
@@ -18,13 +22,23 @@ const ReducerBasics = () => {
           </div>
         );
       })}
-      <button
-        className='btn'
-        style={{ marginTop: '2rem' }}
-        onClick={() => setPeople([])}
-      >
-        clear items
-      </button>
+
+      {people.length>0 ?
+         <button
+         className='btn'
+         style={{ marginTop: '2rem' }}
+         onClick={() => setPeople([])}
+       >
+         clear items
+       </button> :
+       <button 
+       className='btn'
+       style={{ marginTop: '2rem' }}
+       onClick={()=>setPeople(peopleRef.current)}>
+        Reset
+        </button>
+         }
+     
     </div>
   );
 };
