@@ -35,7 +35,7 @@ const ReducerBasics = () => {
        className='btn'
        style={{ marginTop: '2rem' }}
        onClick={()=>setPeople(peopleRef.current)}>
-        Reset
+        Reset items
         </button>
          }
      
