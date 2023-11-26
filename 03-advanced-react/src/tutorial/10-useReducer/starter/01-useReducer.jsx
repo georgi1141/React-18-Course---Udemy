@@ -1,46 +1,71 @@
-import React, { useRef } from 'react';
+import React, { useReducer, useRef } from 'react';
 import { data } from '../../../data';
+
+
 const ReducerBasics = () => {
-  const [people, setPeople] = React.useState(data);
 
-  const removeItem = (id) => {
-    let newPeople = people.filter((person) => person.id !== id);
-    setPeople(newPeople);
-  };
+    const ACTION_KEYS = {
+        CLEAR_LIST:'CLEAR_LIST',
+        RETRIEVE_LIST:'RETRIEVE_LIST',
+        REMOVE_ITEM:'REMOVE_ITEM'
 
-  const peopleRef = useRef(people)
+    }
 
-  console.log(peopleRef.current)
-  return (
-    <div>
-      {people.map((person) => {
-        const { id, name } = person;
-        return (
-          <div key={id} className='item'>
-            <h4>{name}</h4>
-            <button onClick={() => removeItem(id)}>remove</button>
-          </div>
-        );
-      })}
+    const initialState = {
+        people: data
+    }
 
-      {people.length>0 ?
-         <button
-         className='btn'
-         style={{ marginTop: '2rem' }}
-         onClick={() => setPeople([])}
-       >
-         clear items
-       </button> :
-       <button 
-       className='btn'
-       style={{ marginTop: '2rem' }}
-       onClick={()=>setPeople(peopleRef.current)}>
-        Reset items
-        </button>
-         }
-     
-    </div>
-  );
+    const reducer = (state, action) => {
+        switch (action.type) {
+            case ACTION_KEYS.CLEAR_LIST:
+                return { ...state, people: [] };
+            case ACTION_KEYS.RETRIEVE_LIST:
+                return {...state,people:data};
+            case ACTION_KEYS.REMOVE_ITEM:
+
+                return {...state,people:state.people.filter(person=>person.id!==action.payload.id)};
+            default:
+                return state;
+
+        }
+    }
+
+    const [state, dispatch] = useReducer(reducer, initialState)
+
+
+    return (
+        <div>
+            {state.people.map((person) => {
+                const { id, name } = person;
+                return (
+                    <div key={id} className='item'>
+                        <h4>{name}</h4>
+                        <button 
+                        onClick={()=>{dispatch({type:ACTION_KEYS.REMOVE_ITEM,payload:{id}})}}
+                        >remove</button>
+                    </div>
+                );
+            })}
+
+            {state.people.length > 0 ?
+                <button
+                    className='btn'
+                    style={{ marginTop: '2rem' }}
+                    onClick={()=>{dispatch({type:ACTION_KEYS.CLEAR_LIST})}}
+                >
+                    Clear items
+                </button> :
+                <button
+                    className='btn'
+                    style={{ marginTop: '2rem' }}
+                    onClick={()=>{dispatch({type:ACTION_KEYS.RETRIEVE_LIST})}}
+                >
+                    Reset items
+                </button>
+            }
+
+        </div>
+    );
 };
 
 export default ReducerBasics;
