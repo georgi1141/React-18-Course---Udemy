@@ -5,9 +5,24 @@ const url = 'https://icanhazdadjoke.com/';
 // Accept : 'application/json'
 
 const Headers = () => {
+
   const [joke, setJoke] = useState('random dad joke');
 
   const fetchDadJoke = async () => {
+    try { 
+      const response = axios(url,{
+        headers: {
+          accept:'application/json'
+        }
+      }).then(res=>{
+        const data = res.data.joke
+        setJoke(data)
+      })
+      
+    } catch (error) {
+      console.log(error.response)
+      
+    }
     console.log('fetch dad joke');
   };
 
