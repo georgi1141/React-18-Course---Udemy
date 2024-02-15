@@ -1,10 +1,17 @@
+import { useDeleteItem, useToggler } from "./util/reactQueryCustomHooks/costomHooks";
+
+
 const SingleItem = ({ item }) => {
+
+  const toggleCkeckbox = useToggler()
+  const deleteTask = useDeleteItem()
+
   return (
     <div className='single-item'>
       <input
         type='checkbox'
         checked={item.isDone}
-        onChange={() => console.log('edit task')}
+        onChange={() => toggleCkeckbox(item)}
       />
       <p
         style={{
@@ -17,7 +24,7 @@ const SingleItem = ({ item }) => {
       <button
         className='btn remove-btn'
         type='button'
-        onClick={() => console.log('delete task')}
+        onClick={() => deleteTask(item)}
       >
         delete
       </button>

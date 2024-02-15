@@ -1,10 +1,18 @@
 import { useState } from 'react';
+import { useAddItem } from './util/reactQueryCustomHooks/costomHooks';
+ 
 
 const Form = () => {
+
   const [newItemName, setNewItemName] = useState('');
+  const {createTask,isLoading} = useAddItem()
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createTask(newItemName,{
+      onSuccess:()=>{setNewItemName('')}
+    })
+
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -16,7 +24,7 @@ const Form = () => {
           value={newItemName}
           onChange={(event) => setNewItemName(event.target.value)}
         />
-        <button type='submit' className='btn'>
+        <button disabled={isLoading} type='submit' className='btn' >
           add task
         </button>
       </div>
