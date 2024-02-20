@@ -1,0 +1,11 @@
+.form {
+  border: 1px solid white;
+  padding: 1em;
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  margin: 15px 0 5px 0;
+}
